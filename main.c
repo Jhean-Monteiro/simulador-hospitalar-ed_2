@@ -1,9 +1,18 @@
 #include <stdio.h>
 #include "fila_prioridade.h"
+#include "fila_circular.h"
 
 int main() {
     FilaPrioridade fila;
+    FilaCircular filaa;
+
     fp_iniciar(&fila);
+    fc_iniciar(&filaa);
+
+    Paciente p0 = {"Pedro", 50, 4, 1};
+
+    fc_enfileirar(&filaa, p0);
+
 
     Paciente p1 = {"Pedro", 50, 4, 1};
     Paciente p2 = {"Ana",   30, 5, 1};
