@@ -68,12 +68,11 @@ void fp_exibir(FilaPrioridade *f) {
         return;
     }
 
-    printf("\n=== EMERGÊNCIA (Maior prioridade primeiro) ===\n");
+    printf("\n~~~~ EMERGÊNCIA (Maior prioridade primeiro) ~~~\n\n");
     No *temp = f->inicio;
     while (temp != NULL) {
-        printf("Nome: %s | Idade: %d | Gravidade: %d | Prio: %d\n",
-               temp->paciente.nome, temp->paciente.idade,
-               temp->paciente.gravidade, temp->prioridade);
+        printf("Nome: %s | Idade: %d | Prio: %d\n",
+               temp->paciente.nome, temp->paciente.idade, temp->prioridade);
         temp = temp->proximo;
     }
 }

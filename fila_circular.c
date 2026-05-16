@@ -53,7 +53,7 @@ void fc_exibir(FilaCircular *f) {
         return;
     }
 
-    printf("~~~~ EXAMES ~~~~\n");
+    printf("~~~~ EXAMES ~~~~\n\n");
     for (int count = 0; count < f->tamanho; count++) {
         int i = (f->frente + count) % f->capacidade;
         printf("Nome: %s | Idade: %d | Gravidade: %d\n",

@@ -67,11 +67,11 @@ Paciente fila_desenfileirar() {
 
 void fila_exibir() {
     if (fila_vazia()) {
-        printf("não existe paciente para exibir.\n");
+        printf("Não há paciente na fila de consultas.\n");
         return;
     }
 
-    printf("~~~~~ CONSULTAS ~~~~~\n");
+    printf("~~~~ CONSULTAS ~~~~\n\n");
     NoFila *atual = frente;
     while (atual != NULL) {
         printf("Nome: %s / Idade: %d / Gravidade: %d\n",
