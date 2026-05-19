@@ -15,13 +15,10 @@ void atender_paciente();
 void mostrar_pacientes();
 void transferir_paciente();
 void relatorios();
+void teste_estresse();
 
 
 int main() {
-    /* INICIO DA MEDIçÃO DE TEMPO */
-    clock_t inicio, fim;
-    double tempo_gasto;
-    inicio = clock();
 
     fp_iniciar(&emergencia);
     fila_iniciar();
@@ -36,6 +33,7 @@ int main() {
         printf("3. Mostrar pacientes\n");
         printf("4. Transferir paciente\n");
         printf("5. Relatorios\n");
+        printf("6. Teste de estresse\n");
         printf("0. Sair\n");
         printf("Opcao: ");
         scanf("%d", &opcao);
@@ -46,18 +44,13 @@ int main() {
             case 3: mostrar_pacientes(); break;
             case 4: transferir_paciente(); break;
             case 5: relatorios(); break;
+            case 6: teste_estresse(); break;
             case 0: printf("Encerrando sistema...\n"); break;
             default: printf("Opcao invalida!\n");
         }
        
     } while (opcao != 0);
     fc_liberar(&exames);
-
-
-
-    fim = clock();  
-    tempo_gasto = (double)(fim - inicio) / CLOCKS_PER_SEC;
-    printf("\nTempo de execução: %.4f segundos\n", tempo_gasto);
 
     return 0;
 }
@@ -174,4 +167,41 @@ void relatorios() {
     fp_exibir(&emergencia);
     fila_exibir();
     fc_exibir(&exames);
+}
+
+void teste_estresse() {
+    int n;
+    printf("\nQuantidade de operacoes: ");
+    scanf("%d", &n);
+
+ 
+    clock_t inicio = clock();
+ 
+    for (int i = 0; i < n; i++) {
+        Paciente p;
+        snprintf(p.nome, MAX_NOME, "Paciente%d", i + 1);
+        p.idade     = 1 + rand() % 99;
+        p.gravidade = 1 + rand() % 5;
+        p.tipo      = 1 + rand() % 3;
+ 
+        // a cada 3 insercoes remove 1 para nao travar no limite
+        if (i % 3 == 0) {
+            switch (p.tipo) {
+                case 1: if (!fp_vazia(&emergencia)) fp_desenfileirar(&emergencia); break;
+                case 2: if (!fila_vazia())          fila_desenfileirar(); break;
+                case 3: if (!fc_vazia(&exames))     fc_desenfileirar(&exames); break;
+            }
+        } else {
+            switch (p.tipo) {
+                case 1: fp_enfileirar(&emergencia, p, p.gravidade); break;
+                case 2: if (!fila_cheia()) fila_enfileirar(p); break;
+                case 3: fc_enfileirar(&exames, p); break;
+            }
+        }
+    }
+ 
+    clock_t fim = clock();
+ 
+    double tempo = (double)(fim - inicio) / CLOCKS_PER_SEC;
+    printf("%d operacoes realizadas em %.4f segundos\n", n, tempo);
 }
